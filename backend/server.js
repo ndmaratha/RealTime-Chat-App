@@ -23,13 +23,15 @@ app.use("/api/message", messageRoutes);
 
 // --------------------------deployment------------------------------
 
-const __dirname1 = path.resolve();
+const __dirname1 = path.resolve(); // __dirname of backend
 
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname1, "/frontend/build")));
+if (process.env.NODE_ENV=="production") {
+	app.use(express.static(path.join(__dirname1, "..", "frontend", "build")));
 
 	app.get("*", (req, res) =>
-		res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
+		res.sendFile(
+			path.resolve(__dirname1, "..", "frontend", "build", "index.html")
+		)
 	);
 } else {
 	app.get("/", (req, res) => {
@@ -42,6 +44,7 @@ if (process.env.NODE_ENV === "production") {
 // Error Handling middlewares
 app.use(notFound);
 app.use(errorHandler);
+console.log("NODE_ENV:", process.env.NODE_ENV);
 
 const PORT = process.env.PORT || 5000;
 
